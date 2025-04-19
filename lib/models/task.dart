@@ -35,7 +35,6 @@ class Task {
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
-    print(json);
     return Task(
       key: json["key"],
       activity: json["activity"],

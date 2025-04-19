@@ -29,7 +29,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     final fetchedTask = await getTasks(selectedCategory);
     if (fetchedTask != null) {
       taskProvider.addNewTask(fetchedTask);
-      Navigator.of(ctx).pushNamed(AppRoutes.home);
+      Navigator.pop(context);
     }
   }
 

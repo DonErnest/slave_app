@@ -19,6 +19,7 @@ class ScreenCanvas extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
+        bottomNavigationBar: bottomBar,
         appBar: AppBar(
           actions: appBarActions,
           title: Text(appBarTitleText, style: textTheme.titleLarge),
