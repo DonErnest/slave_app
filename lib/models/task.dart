@@ -23,8 +23,9 @@ class Task {
   final double price;
   final String link;
   final double accessibility;
+  bool done;
 
-  const Task({
+  Task({
     required this.key,
     required this.activity,
     required this.type,
@@ -32,6 +33,7 @@ class Task {
     required this.price,
     required this.link,
     required this.accessibility,
+    this.done = false
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {

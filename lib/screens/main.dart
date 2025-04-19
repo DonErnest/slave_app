@@ -3,6 +3,7 @@ import 'package:slave_app/app_routes.dart';
 import 'package:slave_app/models/task.dart';
 import 'package:slave_app/providers/task_provider.dart';
 import 'package:slave_app/widgets/canvas.dart';
+import 'package:slave_app/widgets/task_tile.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -24,8 +25,12 @@ class _MainScreenState extends State<MainScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     taskProvider = TaskProvider.of(context)!;
-    // if favorites selected there must me something here
-    selectedTasks = taskProvider.newTasks;
+    switch (currentScreenIndex) {
+      case 0:
+        selectedTasks = taskProvider.newTasks;
+      case 1:
+        selectedTasks = taskProvider.accomplishedTasks;
+    }
   }
 
   void updateCurrentPageIndex(int newIndex) {
@@ -40,10 +45,8 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     return ScreenCanvas(
       widgets: [
         if (selectedTasks.isNotEmpty)
@@ -51,11 +54,11 @@ class _MainScreenState extends State<MainScreen> {
             flex: 5,
             child: ListView.builder(
               itemCount: selectedTasks.length,
-              itemBuilder:
-                  (ctx, idx) => ListTile(
-                    title: Text(selectedTasks[idx].activity),
-                    subtitle: Text(selectedTasks[idx].type.titleDisplay),
-                  ),
+              itemBuilder: (ctx, idx) => TaskTile(
+                  task: selectedTasks[idx],
+                  markReady: taskProvider.accomplishTask,
+                  discard: taskProvider.cancelTask,
+              ),
             ),
           ),
         Padding(
