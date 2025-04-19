@@ -1,4 +1,5 @@
 enum TaskCategory {
+  random("Random"),
   education("Education"),
   recreational("Recreational"),
   social("Social"),
@@ -7,11 +8,11 @@ enum TaskCategory {
   cooking("Cooking"),
   relaxation("Relaxation"),
   music("Music"),
-  busywork("Busywork");
+  busywork("Hardwork");
 
-  const TaskCategory(this.categoryDisplay);
+  const TaskCategory(this.titleDisplay);
 
-  final String categoryDisplay;
+  final String titleDisplay;
 }
 
 class Task {
