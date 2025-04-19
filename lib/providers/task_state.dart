@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:slave_app/data/task_data.dart';
 import 'package:slave_app/models/task.dart';
 import 'package:slave_app/providers/task_provider.dart';
@@ -35,7 +34,7 @@ class _TaskStateState extends State<TaskState> {
   void addNewTask(Task task) {
     setState(() {
       tasks.add(task);
-      saveTasks(tasks);
+      saveTasks(tasks, score);
     });
   }
 
@@ -45,14 +44,14 @@ class _TaskStateState extends State<TaskState> {
     setState(() {
       score ++;
       tasks[taskIdx] = readyTask;
-      saveTasks(tasks);
+      saveTasks(tasks, score);
     });
   }
 
   void cancelReadyTask(String key) {
     setState(() {
       tasks.removeWhere((task) => task.key == key);
-      saveTasks(tasks);
+      saveTasks(tasks, score);
     });
   }
 

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:slave_app/helpers/get_data_file_path.dart';
 import 'package:slave_app/models/task.dart';
 
-Future<void> saveTasks(List<Task> tasks) async {
+Future<void> saveTasks(List<Task> tasks, int score) async {
   final filePath = await getDataFilePath("tasks");
   final file = File(filePath);
   final tasksMaps =
@@ -22,20 +22,22 @@ Future<void> saveTasks(List<Task> tasks) async {
             },
           )
           .toList();
-  final tasksJson = jsonEncode(tasksMaps);
+  final Map<String, dynamic> data = {"tasks": tasksMaps, "score": score};
+  final tasksJson = jsonEncode(data);
   await file.writeAsString(tasksJson);
 }
 
-Future<List<Task>> loadTasks() async {
+Future<(List<Task>, int)> loadTasks() async {
   try {
     final filePath = await getDataFilePath("tasks");
     final file = File(filePath);
     final jsonContents = await file.readAsString();
-    final tasksMaps = jsonDecode(jsonContents) as List<dynamic>;
-    return List<Task>.from(
+    final data = jsonDecode(jsonContents) as Map<String, dynamic>;
+    final tasksMaps = data["tasks"];
+    return (List<Task>.from(
       tasksMaps.map((taskMap) => Task.fromJson(taskMap)).toList(),
-    );
+    ), data["score"] as int);
   } catch (error) {
-    return [];
+    return (List<Task>.from([]), 0);
   }
 }

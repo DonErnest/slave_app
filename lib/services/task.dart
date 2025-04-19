@@ -37,8 +37,6 @@ Future<Task?> getNewTask(TaskCategory category) async {
 }
 
 Future<(List<Task>, int)> getSavedTasksAndScore() async {
-  final tasks = await loadTasks();
-  final int score = tasks.where((task) => task.done == true).length;
-
+  final (tasks, score ) = await loadTasks();
   return (tasks, score);
 }

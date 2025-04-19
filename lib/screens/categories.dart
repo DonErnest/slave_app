@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:slave_app/app_routes.dart';
 import 'package:slave_app/models/task.dart';
 import 'package:slave_app/providers/task_provider.dart';
 import 'package:slave_app/services/task.dart' show getNewTask;
