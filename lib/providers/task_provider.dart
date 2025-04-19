@@ -8,6 +8,8 @@ class TaskProvider extends InheritedWidget {
   final void Function(String taskKey) cancelTask;
   final void Function(Task accTask) addNewTask;
 
+  final int score;
+
   const TaskProvider({
     super.key,
     required super.child,
@@ -15,6 +17,7 @@ class TaskProvider extends InheritedWidget {
     required this.accomplishTask,
     required this.addNewTask,
     required this.cancelTask,
+    required this.score,
   });
 
   List<Task> get accomplishedTasks {

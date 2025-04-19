@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:slave_app/app_routes.dart';
 import 'package:slave_app/models/task.dart';
 import 'package:slave_app/providers/task_provider.dart';
-import 'package:slave_app/services/task.dart' show getTasks;
+import 'package:slave_app/services/task.dart' show getNewTask;
 import 'package:slave_app/widgets/canvas.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     BuildContext ctx,
     TaskCategory selectedCategory,
   ) async {
-    final fetchedTask = await getTasks(selectedCategory);
+    final fetchedTask = await getNewTask(selectedCategory);
     if (fetchedTask != null) {
       taskProvider.addNewTask(fetchedTask);
       Navigator.pop(context);
@@ -49,7 +49,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                 ),
               )
               .toList(),
-      appBarTitleText: "Choose category",
+      appBarTitleText: "Choose category, you score is ${taskProvider.score}",
     );
   }
 }

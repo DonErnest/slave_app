@@ -69,7 +69,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ],
-      appBarTitleText: "Home",
+      appBarTitleText: "You have earned ${taskProvider.score} scores",
       bottomBar: NavigationBar(
         selectedIndex: currentScreenIndex,
         onDestinationSelected: updateCurrentPageIndex,

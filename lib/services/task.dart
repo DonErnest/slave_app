@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:slave_app/data/task_data.dart';
 import 'package:slave_app/models/task.dart';
 
 const String baseUri = "https://bored.api.lewagon.com/api/activity";
 
-Future<dynamic> downloadTask (String? params) async {
+Future<dynamic> downloadTask(String? params) async {
   var uriStr = baseUri;
   if (params != null) {
     uriStr += params;
@@ -23,11 +24,21 @@ Future<dynamic> downloadTask (String? params) async {
   return null;
 }
 
-Future<Task?> getTasks(TaskCategory category) async {
-  final params = "?type=${category != TaskCategory.random? category.name.toString() : null}";
+Future<Task?> getNewTask(TaskCategory category) async {
+  final params =
+      category == TaskCategory.random
+          ? ""
+          : "?type=${category.name.toString()}";
   final rawData = await downloadTask(params);
   if (rawData != null) {
     return Task.fromJson(rawData);
   }
   return null;
+}
+
+Future<(List<Task>, int)> getSavedTasksAndScore() async {
+  final tasks = await loadTasks();
+  final int score = tasks.where((task) => task.done == true).length;
+
+  return (tasks, score);
 }
