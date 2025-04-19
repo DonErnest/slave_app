@@ -82,7 +82,7 @@ class _MainScreenState extends State<MainScreen> {
           NavigationDestination(
             icon: Icon(Icons.task_outlined),
             selectedIcon: Icon(Icons.task),
-            label: "New tasks",
+            label: "Accomplished tasks",
           ),
         ],
       ),

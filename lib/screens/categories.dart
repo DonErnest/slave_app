@@ -40,11 +40,17 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           TaskCategory.values
               .map(
                 (category) => Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      fetchTasks(context, category);
-                    },
-                    child: Text(category.titleDisplay),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          fetchTasks(context, category);
+                        },
+                        child: Text(category.titleDisplay),
+                      ),
+                    ),
                   ),
                 ),
               )

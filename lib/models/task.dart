@@ -47,7 +47,7 @@ class Task {
       price: json["price"].toDouble(),
       link: json["link"],
       accessibility: json["accessibility"].toDouble(),
-      done: json["done"]
+      done: json.containsKey("done") ? json["done"]: false
     );
   }
 }

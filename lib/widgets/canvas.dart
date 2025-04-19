@@ -22,7 +22,7 @@ class ScreenCanvas extends StatelessWidget {
         bottomNavigationBar: bottomBar,
         appBar: AppBar(
           actions: appBarActions,
-          title: Text(appBarTitleText, style: textTheme.titleLarge),
+          title: Text(appBarTitleText),
         ),
         body: Center(
           child: Column(

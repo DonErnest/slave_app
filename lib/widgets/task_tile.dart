@@ -15,23 +15,25 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading:
-          task.done
-              ? null
-              : IconButton(
-                onPressed: () {
-                  markReady(task);
-                },
-                icon: Icon(Icons.check_box_outline_blank),
-              ),
-      title: Text(task.activity),
-      subtitle: Text(task.type.titleDisplay),
-      trailing: IconButton(
-        onPressed: () {
-          discard(task.key);
-        },
-        icon: Icon(Icons.delete_forever_outlined),
+    return Card(
+      child: ListTile(
+        leading:
+            task.done
+                ? null
+                : IconButton(
+                  onPressed: () {
+                    markReady(task);
+                  },
+                  icon: Icon(Icons.check_box_outline_blank),
+                ),
+        title: Text(task.activity),
+        subtitle: Text(task.type.titleDisplay),
+        trailing: IconButton(
+          onPressed: () {
+            discard(task.key);
+          },
+          icon: Icon(Icons.delete_forever_outlined),
+        ),
       ),
     );
   }
