@@ -20,7 +20,7 @@ class Task {
   final String activity;
   final TaskCategory type;
   final int participants;
-  final int price;
+  final double price;
   final String link;
   final double accessibility;
 
@@ -33,4 +33,19 @@ class Task {
     required this.link,
     required this.accessibility,
   });
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    print(json);
+    return Task(
+      key: json["key"],
+      activity: json["activity"],
+      type: TaskCategory.values.firstWhere(
+        (category) => category.name.toString() == json["type"],
+      ),
+      participants: json["participants"],
+      price: json["price"].toDouble(),
+      link: json["link"],
+      accessibility: json["accessibility"].toDouble(),
+    );
+  }
 }

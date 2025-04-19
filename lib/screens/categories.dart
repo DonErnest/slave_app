@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:slave_app/app_routes.dart';
 import 'package:slave_app/models/task.dart';
+import 'package:slave_app/providers/task_provider.dart';
+import 'package:slave_app/services/task.dart' show getTasks;
 import 'package:slave_app/widgets/canvas.dart';
 
 class CategoriesScreen extends StatefulWidget {
@@ -10,6 +13,26 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
+  late TaskProvider taskProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    taskProvider = TaskProvider.of(context)!;
+  }
+
+
+  Future<void> fetchTasks(
+    BuildContext ctx,
+    TaskCategory selectedCategory,
+  ) async {
+    final fetchedTask = await getTasks(selectedCategory);
+    if (fetchedTask != null) {
+      taskProvider.addNewTask(fetchedTask);
+      Navigator.of(ctx).pushNamed(AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenCanvas(
@@ -18,7 +41,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               .map(
                 (category) => Expanded(
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      fetchTasks(context, category);
+                    },
                     child: Text(category.titleDisplay),
                   ),
                 ),

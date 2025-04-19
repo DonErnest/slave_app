@@ -12,30 +12,40 @@ class TaskState extends StatefulWidget {
 }
 
 class _TaskStateState extends State<TaskState> {
-  List<Task> accomplished = [];
+  List<Task> readyTasks = [];
+  List<Task> newTasks = [];
 
   @override
   void initState() {
     super.initState();
   }
 
+  void addNewTask(Task task) {
+    setState(() {
+      newTasks.add(task);
+    });
+  }
+
+
   void markTaskAsDone(Task task) {
     setState(() {
-      accomplished.add(task);
+      readyTasks.add(task);
     });
   }
 
   void cancelReadyTask(Task task) {
     setState(() {
-      accomplished.remove(task);
+      readyTasks.remove(task);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return TaskProvider(
-      accomplishedTasks: accomplished,
+      newTasks: newTasks,
+      accomplishedTasks: readyTasks,
       accomplishTask: markTaskAsDone,
+      addNewTask: addNewTask,
       cancelTask: cancelReadyTask,
       child: widget.child,
     );
