@@ -2,15 +2,9 @@
 
 A new Flutter project.
 
-## Getting Started
+## Project Structure
 
-This project is a starting point for a Flutter application.
+there are two different application on the separate branches:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- branch "main" - boring and dull task app with local storage and API randomized that retrieves random tasks
+- branch "with_firebase" - high-tech version with integration of Firebase realtime database for storing highly customizable tasks
