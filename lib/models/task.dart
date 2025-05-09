@@ -16,38 +16,48 @@ enum TaskCategory {
 }
 
 class Task {
-  final String key;
+  final String id;
   final String activity;
   final TaskCategory type;
-  final int participants;
-  final double price;
-  final String link;
-  final double accessibility;
-  bool done;
 
   Task({
-    required this.key,
+    required this.id,
     required this.activity,
     required this.type,
-    required this.participants,
-    required this.price,
-    required this.link,
-    required this.accessibility,
-    this.done = false
   });
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      key: json["key"],
+      id: json["id"],
       activity: json["activity"],
       type: TaskCategory.values.firstWhere(
         (category) => category.name.toString() == json["type"],
       ),
-      participants: json["participants"],
-      price: json["price"].toDouble(),
-      link: json["link"],
-      accessibility: json["accessibility"].toDouble(),
-      done: json.containsKey("done") ? json["done"]: false
     );
+  }
+
+  factory Task.fromFireBaseJson(String id, Map<String, dynamic> json) {
+    return Task(
+      id: id,
+      activity: json["activity"],
+      type: TaskCategory.values.firstWhere(
+            (category) => category.name.toString() == json["type"],
+      ),
+    );
+  }
+}
+
+
+class CreateTask{
+  final String activity;
+  final TaskCategory type;
+
+  CreateTask({
+    required this.activity,
+    required this.type,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {'activity': activity, 'type': type.name.toString()};
   }
 }

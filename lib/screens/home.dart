@@ -15,33 +15,21 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   late TaskProvider taskProvider;
   late List<Task> selectedTasks;
-  int currentScreenIndex = 0;
 
-  void goToCategories() {
-    Navigator.of(context).pushNamed(AppRoutes.categories);
+  void goToTaskForm() {
+    Navigator.of(context).pushNamed(AppRoutes.addTask);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     taskProvider = TaskProvider.of(context)!;
-    switch (currentScreenIndex) {
-      case 0:
-        selectedTasks = taskProvider.newTasks;
-      case 1:
-        selectedTasks = taskProvider.accomplishedTasks;
-    }
+    selectedTasks = taskProvider.tasks;
   }
 
   void updateCurrentPageIndex(int newIndex) {
     setState(() {
-      switch (newIndex) {
-        case 0:
-          selectedTasks = taskProvider.newTasks;
-        case 1:
-          selectedTasks = taskProvider.accomplishedTasks;
-      }
-      currentScreenIndex = newIndex;
+      selectedTasks = taskProvider.tasks;
     });
   }
 
@@ -49,43 +37,41 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return ScreenCanvas(
       widgets: [
-        if (selectedTasks.isNotEmpty)
-          Expanded(
-            flex: 5,
-            child: ListView.builder(
-              itemCount: selectedTasks.length,
-              itemBuilder: (ctx, idx) => TaskTile(
-                  task: selectedTasks[idx],
-                  markReady: taskProvider.accomplishTask,
-                  discard: taskProvider.cancelTask,
+        taskProvider.loading
+            ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Loading'),
+                SizedBox(width: 8),
+                SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                ),
+              ],
+            )
+            : Expanded(
+              flex: 5,
+              child: ListView.builder(
+                itemCount: selectedTasks.length,
+                itemBuilder:
+                    (ctx, idx) => TaskTile(
+                      task: selectedTasks[idx],
+                      discard: taskProvider.deleteTask,
+                    ),
               ),
             ),
-          ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
           child: ElevatedButton(
-            onPressed: goToCategories,
+            onPressed: goToTaskForm,
             child: Text("Create new task"),
           ),
         ),
       ],
-      appBarTitleText: "You have earned ${taskProvider.score} scores",
-      bottomBar: NavigationBar(
-        selectedIndex: currentScreenIndex,
-        onDestinationSelected: updateCurrentPageIndex,
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.list_alt_outlined),
-            selectedIcon: Icon(Icons.view_list_outlined),
-            label: "New tasks",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.task_outlined),
-            selectedIcon: Icon(Icons.task),
-            label: "Accomplished tasks",
-          ),
-        ],
-      ),
+      appBarTitleText: "More tasks for you",
     );
   }
 }

@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:slave_app/data/task_data.dart';
 import 'package:slave_app/models/task.dart';
 import 'package:slave_app/providers/task_provider.dart';
 import 'package:slave_app/services/task.dart';
@@ -16,6 +17,7 @@ class TaskState extends StatefulWidget {
 class _TaskStateState extends State<TaskState> {
   List<Task> tasks = [];
   int score = 0;
+  bool loading = true;
 
   @override
   void initState() {
@@ -24,45 +26,37 @@ class _TaskStateState extends State<TaskState> {
   }
 
   Future<void> loadData() async {
-    final (loadedTasks, loadedScore) = await getSavedTasksAndScore();
+    final loadedTasks = await getTasks();
     setState(() {
       tasks = loadedTasks;
-      score = loadedScore;
+      loading = false;
     });
   }
 
-  void addNewTask(Task task) {
+  void addNewTask(CreateTask task) {
     setState(() {
-      tasks.add(task);
-      saveTasks(tasks, score);
+      saveTask(task);
+      loading = true;
     });
+    loadData();
   }
 
-  void markTaskAsDone(Task readyTask) {
-    final taskIdx = tasks.indexWhere((task) => task.key == readyTask.key);
-    readyTask.done = true;
-    setState(() {
-      score ++;
-      tasks[taskIdx] = readyTask;
-      saveTasks(tasks, score);
-    });
-  }
 
-  void cancelReadyTask(String key) {
+  void deleteTask(String id) {
     setState(() {
-      tasks.removeWhere((task) => task.key == key);
-      saveTasks(tasks, score);
+      removeTask(id);
+      loading = true;
     });
+    loadData();
   }
 
   @override
   Widget build(BuildContext context) {
     return TaskProvider(
-      score: score,
+      loading: loading,
       tasks: tasks,
-      accomplishTask: markTaskAsDone,
       addNewTask: addNewTask,
-      cancelTask: cancelReadyTask,
+      deleteTask: deleteTask,
       child: widget.child,
     );
   }
